@@ -3,6 +3,9 @@ var map = L.map("map", {
   center: [37.2758953, -104.6528618],
   zoom: 5
 });
+//need to remove this before deployment
+
+const API_KEY = "pk.eyJ1IjoibnN3ZWhsaSIsImEiOiJjazVnMnc2ZHowM244M2pxbTFlYWhzMXVwIn0.0CxW_QdppTZUjpTaUh8-dQ";
 
 // Adding tile layer
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
@@ -13,12 +16,32 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 }).addTo(map);
 
 //Connecting to the endpoint
-// NOT WORKING!!
-var url = "http://127.0.0.1:5000/api/data/access";
-d3.json(url, function (data) { console.log(data) });
+var url = "/api/data/access";
+d3.json(url, function (data) {
+  console.log(data)
+
+  searchid = "1002"
+
+  // data.forEach(function (county) {
+  //   console.log(county.FIPS);
+  // });
+
+  function search(county) {
+    return county.FIPS == searchid;
+  }
+  console.log("Selected value is: " + searchid);
+
+  counties = data[0]
+  console.log(counties)
+  
+
+});
+
 
 //connecting to the counties geojson data
 var link = "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json";
+
+
 
 d3.json(link, function (data) {
   // Creating a geoJSON layer with the retrieved data
