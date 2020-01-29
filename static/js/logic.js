@@ -14,7 +14,7 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 //Connecting to the endpoint
 // NOT WORKING!!
-var url = "/api/data/access";
+var url = "http://127.0.0.1:5000/api/data/access";
 d3.json(url, function (data) { console.log(data) });
 
 //connecting to the counties geojson data
