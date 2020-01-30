@@ -10,7 +10,7 @@ const API_KEY = "pk.eyJ1IjoibnN3ZWhsaSIsImEiOiJjazVnMnc2ZHowM244M2pxbTFlYWhzMXVw
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
   attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
   maxZoom: 18,
-  id: "mapbox.streets",
+  id: "mapbox.dark",
   accessToken: API_KEY
 }).addTo(myMap);
 
@@ -43,13 +43,14 @@ d3.json(geoData, function (data) {
     steps: 10,
 
     // q for quartile, e for equidistant, k for k-means
-    mode: "q",
+    mode: "k",
     style: {
       // Border color
       color: "#fff",
       weight: 1,
       fillOpacity: 0.8
     },
+    // need to fix the bindpop to push dynamic information
 
     // Binding a pop-up to each layer
     onEachFeature: function (feature, layer) {
