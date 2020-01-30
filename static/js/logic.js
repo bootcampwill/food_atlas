@@ -21,19 +21,9 @@ d3.json(url, function (data) {
 
   searchid = "1011";
 
-  /*
-  // data.forEach(function (county) {
-  //   console.log(county.FIPS);
-  // });
-
-  function search(county) {
-    return county.FIPS == searchid;
-  }
-  console.log("Selected value is: " + searchid);
-  */
 
   function findFIPS(d) {
-    console.log(d.FIPS.toString());
+
     return d.FIPS.toString() == searchid;
   }
 
@@ -41,7 +31,7 @@ d3.json(url, function (data) {
   results = data.filter(findFIPS);
 
   console.log("TEST");
-  console.log(results);
+  console.log(results[0].County);
 
 });
 
@@ -85,10 +75,13 @@ d3.json(link, function (data) {
         // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
         click: function (event) {
           map.fitBounds(event.target.getBounds());
+          console.log(feature.id)
         }
       });
       // Giving each feature a pop-up with information pertinent to it
-      layer.bindPopup("<h1>" + feature.properties.NAME + "</h1> <hr> <h2>" + "Testing" + "</h2>");
+
+      countyName = feature.properties.NAME
+      layer.bindPopup("<h1>" + countyName + "</h1> <hr> <h2>" + "Testing" + "</h2>");
 
     }
   }).addTo(map);
