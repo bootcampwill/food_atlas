@@ -17,9 +17,9 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 // Load in geojson data
 // these variables would get values from dropdown menu in the index.html
-var category = "restaurants"
-var variableName = "Expenditures per capita, fast food, 2012"
-var variableCode = "PC_FFRSALES12"
+var category = "health"
+var variableName = "Adult obesity rate, 2013"
+var variableCode = "PCT_OBESE_ADULTS13"
 
 
 var geoData = `/api/data/${category}`;
@@ -30,23 +30,23 @@ d3.json(geoData, function (data) {
 
   console.log(data)
 
-  // Create a new choropleth layer
+  //  choropleth layer
   geojson = L.choropleth(data, {
 
-    // Define what  property in the features to use
+    // property to use
     valueProperty: variableCode,
 
-    // Set color scale
+    //  color scale
     scale: ["#ffffb2", "#0026b1"],
 
     // Number of breaks in step range
     steps: 10,
 
     // q for quartile, e for equidistant, k for k-means
-    mode: "k",
+    mode: "q",
     style: {
       // Border color
-      color: "#fff",
+      color: "#666666",
       weight: 1,
       fillOpacity: 0.8
     },
@@ -54,12 +54,12 @@ d3.json(geoData, function (data) {
 
     // Binding a pop-up to each layer
     onEachFeature: function (feature, layer) {
-      layer.bindPopup("County: " + feature.properties.NAME + `<br> ${variableName} : <br>` + feature.properties.PC_FFRSALES12);
+      layer.bindPopup("County: " + feature.properties.NAME + `<br> ${variableName} : <br>` + feature.properties[`${variableCode}`]);
     }
   }).addTo(myMap);
 
   // Set up the legend
-  var legend = L.control({ position: "bottomright" });
+  var legend = L.control({ position: "topright" });
   legend.onAdd = function () {
     var div = L.DomUtil.create("div", "info legend");
     var limits = geojson.options.limits;
