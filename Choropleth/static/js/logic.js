@@ -14,13 +14,19 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: API_KEY
 }).addTo(myMap);
 
+//eventListener
+d3.selectAll("#selDataset").on("change", selection);
+function selection() {
+  var selectedVariable = d3.select("#selDataset");
+  var variable = selectedVariable.property("value");
+  console.log(variable)
+}
 
 // Load in geojson data
 // these variables would get values from dropdown menu in the index.html
 var category = "health"
 var variableName = "Adult obesity rate, 2013"
 var variableCode = "PCT_OBESE_ADULTS13"
-
 
 var geoData = `/api/data/${category}`;
 var geojson;

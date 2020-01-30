@@ -164,8 +164,7 @@ def variables():
     conn = engine.connect()
     try:
         data = pd.read_sql("SELECT * FROM \"Variables\" ", conn)
-        combinedData = counties.merge(data, on='FIPS')
-        return combinedData.to_json()
+        return data.to_json()
     except Exception as e:
         print(e)
         return render_template('error.html', error=True)

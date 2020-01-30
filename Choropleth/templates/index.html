@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>FoodAtlas</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   <!-- Leaflet CSS & JS-->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
@@ -27,6 +28,17 @@
 <body>
 
   <!-- The div where we will inject our map -->
+  <div>
+    <h5>Food Access variables:</h5>
+    <select id="selDataset">
+      <option value="PCT_DIABETES_ADULTS13"> Adult diabetes rate, 2013</option>
+      <option value="PCT_OBESE_ADULTS13"> Adult obesity rate, 2013</option>
+      <option value="RECFACPTH14"> Recreation & fitness facilities/1,000 pop, 2014</option>
+
+    </select>
+  </div>
+  <br>
+
   <div id="map"></div>
 
 
