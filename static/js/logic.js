@@ -4,6 +4,7 @@ var map = L.map("map", {
   zoom: 5
 });
 //need to remove this before deployment
+const API_KEY = "pk.eyJ1IjoibnN3ZWhsaSIsImEiOiJjazVnMnc2ZHowM244M2pxbTFlYWhzMXVwIn0.0CxW_QdppTZUjpTaUh8-dQ"
 
 // Adding tile layer
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
@@ -18,8 +19,9 @@ var url = "/api/data/access";
 d3.json(url, function (data) {
   console.log(data)
 
-  searchid = "1002"
+  searchid = "1011";
 
+  /*
   // data.forEach(function (county) {
   //   console.log(county.FIPS);
   // });
@@ -28,10 +30,18 @@ d3.json(url, function (data) {
     return county.FIPS == searchid;
   }
   console.log("Selected value is: " + searchid);
+  */
 
-  counties = data[0]
-  console.log(counties)
-  
+  function findFIPS(d) {
+    console.log(d.FIPS.toString());
+    return d.FIPS.toString() == searchid;
+  }
+
+
+  results = data.filter(findFIPS);
+
+  console.log("TEST");
+  console.log(results);
 
 });
 
@@ -40,8 +50,8 @@ d3.json(url, function (data) {
 var link = "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json";
 
 
-
 d3.json(link, function (data) {
+  console.log(data)
   // Creating a geoJSON layer with the retrieved data
   L.geoJson(data, {
     // Style each feature (in this case a neighborhood)
@@ -78,7 +88,7 @@ d3.json(link, function (data) {
         }
       });
       // Giving each feature a pop-up with information pertinent to it
-      layer.bindPopup("<h1>" + "Test" + "</h1> <hr> <h2>" + "Testing" + "</h2>");
+      layer.bindPopup("<h1>" + feature.properties.NAME + "</h1> <hr> <h2>" + "Testing" + "</h2>");
 
     }
   }).addTo(map);
