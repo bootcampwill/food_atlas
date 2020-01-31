@@ -17,9 +17,84 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 //eventListener
 d3.selectAll("#selDataset").on("change", selection);
 function selection() {
-  var selectedVariable = d3.select("#selDataset");
+  var selectedVariable = d3.select("#selDataset option:checked");
   var variable = selectedVariable.property("value");
+  var title = selectedVariable.text()
   console.log(variable)
+  console.log(title)
+
+  var category = "health"
+  var variableName = title
+  var variableCode = variable
+  var geoData = `/api/data/${category}`;
+  var geojson;
+
+  // Grab data with d3
+  d3.json(geoData, function (data) {
+
+    console.log(data)
+
+    //  choropleth layer
+    geojson = L.choropleth(data, {
+
+      // property to use
+      valueProperty: variableCode,
+
+      //  color scale
+      scale: ["#ffffb2", "#0026b1"],
+
+      // Number of breaks in step range
+      steps: 10,
+
+      // q for quartile, e for equidistant, k for k-means
+      mode: "q",
+      style: {
+        // Border color
+        color: "#666666",
+        weight: 1,
+        fillOpacity: 0.8
+      },
+      // need to fix the bindpop to push dynamic information
+
+      // Binding a pop-up to each layer
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup("County: " + feature.properties.NAME + `<br> ${variableName} : <br>` + feature.properties[`${variableCode}`]);
+      }
+    }).addTo(myMap);
+    // Set up the legend
+    // removing old legend
+    d3.select(".legend").remove()
+
+    var legend = L.control({ position: "topright" });
+    legend.onAdd = function () {
+      var div = L.DomUtil.create("div", "info legend");
+      var limits = geojson.options.limits;
+      var colors = geojson.options.colors;
+      var labels = [];
+
+
+
+
+      // Add min & max
+      var legendInfo = `<h1> ${variableName} </h1>` +
+        "<div class=\"labels\">" +
+        "<div class=\"min\">" + limits[0] + "</div>" +
+        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+        "</div>";
+
+      div.innerHTML = legendInfo;
+
+      limits.forEach(function (limit, index) {
+        labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+      });
+
+      div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+      return div;
+    };
+    // Adding legend to the map
+    legend.addTo(myMap)
+
+  });
 }
 
 // Load in geojson data
@@ -91,5 +166,4 @@ d3.json(geoData, function (data) {
 
   // Adding legend to the map
   legend.addTo(myMap);
-
 });
