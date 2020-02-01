@@ -14,6 +14,29 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: API_KEY
 }).addTo(myMap);
 
+//Updating the variable options when a different category is selected
+//filter not working!!
+
+d3.selectAll("#categories").on("change", menu);
+function menu() {
+  var url = "/api/data/variables"
+  d3.json(url, function (response) {
+    var selectedCategory = d3.select("#categories option:checked");
+    var category = selectedCategory.property("value").toUpperCase();
+    console.log(category)
+    console.log(response)
+    var variables = [response]
+
+    var results = variables.filter(function (item) {
+      console.log(item.CategoryCode);
+      return item.CategoryCode == "RESTAURANTS";
+    });
+    console.log(results)
+  });
+}
+
+
+
 //eventListener
 d3.selectAll("#selDataset").on("change", selection);
 function selection() {
@@ -29,6 +52,11 @@ function selection() {
   var geoData = `/api/data/${category}`;
   var geojson;
 
+  //color options
+  var colorScale = ["#0026b1", "#660f12", "#054f3a", "#a64102", "#3e0273", "#633f5b", "#024575"];
+  selectedColor = colorScale[(Math.floor(Math.random() * 7) + 1)]
+  console.log(selectedColor)
+
   // Grab data with d3
   d3.json(geoData, function (data) {
 
@@ -40,8 +68,10 @@ function selection() {
       // property to use
       valueProperty: variableCode,
 
+
+
       //  color scale
-      scale: ["#ffffb2", "#0026b1"],
+      scale: ["#ffffb2", selectedColor],
 
       // Number of breaks in step range
       steps: 10,
@@ -131,7 +161,6 @@ d3.json(geoData, function (data) {
       weight: 1,
       fillOpacity: 0.8
     },
-    // need to fix the bindpop to push dynamic information
 
     // Binding a pop-up to each layer
     onEachFeature: function (feature, layer) {
