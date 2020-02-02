@@ -61,7 +61,7 @@ function selection() {
   //color options
   var colorScale = ["#0026b1", "#660f12", "#054f3a", "#a64102", "#3e0273", "#633f5b", "#024575"];
   selectedColor = colorScale[(Math.floor(Math.random() * 7) + 1)]
-  console.log(selectedColor)
+  console.log("random colour index ", selectedColor)
 
   // Grab data with d3
   d3.json(geoData, function (data) {
