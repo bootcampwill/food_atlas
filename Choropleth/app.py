@@ -145,7 +145,7 @@ def local():
         return render_template('error.html', error=True)
 
 
-@app.route('/api/data/prices')
+@app.route('/api/data/PRICES_TAXES')
 def prices():
     # Establish DB connection
     conn = engine.connect()
@@ -164,7 +164,7 @@ def variables():
     conn = engine.connect()
     try:
         data = pd.read_sql("SELECT * FROM \"Variables\" ", conn)
-        return data.to_json()
+        return data.to_json(orient='records')
     except Exception as e:
         print(e)
         return render_template('error.html', error=True)

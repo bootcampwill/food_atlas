@@ -25,31 +25,37 @@ function menu() {
     var category = selectedCategory.property("value").toUpperCase();
     console.log(category)
     console.log(response)
-    var variables = [response]
-
-    var results = variables.filter(function (item) {
+    var results = response.filter(function (item) {
       console.log(item.CategoryCode);
-      return item.CategoryCode == "RESTAURANTS";
+      return item.CategoryCode == category;
     });
-    console.log(results)
+
+    // filling in the options for Variables menu
+    var subjectFilter = d3.select("#selDataset")
+    subjectFilter.selectAll("option").remove();
+
+    results.forEach(item => {
+      var row = subjectFilter.append("option")
+      row.append("option").text(item.VariableName).attr("value", item.VariableCode);
+    });
   });
 }
-
-
 
 //eventListener
 d3.selectAll("#selDataset").on("change", selection);
 function selection() {
-  var selectedVariable = d3.select("#selDataset option:checked");
-  var variable = selectedVariable.property("value");
+  var selectedCategory = d3.select("#categories option:checked");
+  var category = selectedCategory.property("value");
+  var selectedVariable = d3.select("#selDataset option:checked").select("option");
+  var variable = selectedVariable.attr("value");
   var title = selectedVariable.text()
-  console.log(variable)
+  console.log("Variable :", variable)
   console.log(title)
 
-  var category = "health"
   var variableName = title
   var variableCode = variable
   var geoData = `/api/data/${category}`;
+  console.log("API", geoData)
   var geojson;
 
   //color options
@@ -71,7 +77,7 @@ function selection() {
 
 
       //  color scale
-      scale: ["#ffffb2", selectedColor],
+      scale: ["#ffffb2", "#0026b1"],
 
       // Number of breaks in step range
       steps: 10,
