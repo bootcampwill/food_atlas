@@ -16,6 +16,9 @@
 
   <!-- Leaflet-Choropleth JavaScript -->
   <script type="text/javascript" src="../static/js/choropleth.js"></script>
+  <!--Plotly-->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 
   <!--ADDING PRINT THIS PAGE BUTTON-->
   <div class="align">
@@ -51,6 +54,7 @@
 <body>
 
 
+
   <!--ADDING NAVIGATION BAR FOR GITHUB REPO-->
   <nav class="navbar">
     <ul>
@@ -81,7 +85,7 @@
         <div class="col-lg-12 text-center">
           <h2 style="color:whitesmoke" class="section-heading">NAVIGATE</h2>
           <h3 class="section-subheading">
-            Click on any of the icons below to navigate.
+            Click to navigate.
           </h3>
         </div>
 
@@ -91,13 +95,12 @@
         <div class="row text-center">
           <div class="col-lg-4">
             <a href="#usa-icon-header"><img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxYeC-s6WLzTn5O4nmeMQ0BfBgFjJvou2oWe1YRv-c-xUQj-h7&s"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxYeC-s6WLzTn5O4nmeMQ0BfBgFjJvou2oWe1YRv-c-xUQj-h7&s" onClick="document.getElementById('map1').scrollIntoView();" 
                 width=80px class="img-fluid" class=“centered” alt="Responsive image"></a>
-            <h4 class="service-heading">Add Heading Here</h4>
-            <p class="text">Add a description here. Add a description here. Add a description here. Add a description
-              here. Add a description here. Add a description here. Add a description here. Add a description here. Add
-              a description here. Add a description here. </p>
+            <h4 class="service-heading">The Food Environment Atlas Data</h4>
+            <p class="text">Check out how food environment factors—such as store/restaurant proximity, food prices, food and nutrition assistance programs, and community characteristics—interact to influence food choices and diet quality. </p>
           </div>
+
 
 
           <div class="col-lg-4">
@@ -109,6 +112,8 @@
               here. Add a description here. Add a description here. Add a description here. Add a description here. Add
               a description here. Add a description here. Add a description here.</p>
           </div>
+
+
 
           <div class="col-lg-4">
             <a href="#machine-learning-header"><img
@@ -128,9 +133,16 @@
     <section class="posts">
 
       <article class="post">
-        <h4>Food Atlas Categories:</h4>
-        <select id="categories">
-          <option> SelectCategory</option>
+
+        <div id="map1"></div>
+        <center><b></b><h4 style="font-size:30px; color: rgba(29, 0, 29, 0.692); font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">The Food Environment Atlas Data</h4></b></center>
+
+        <br>
+
+        <center><h4 style="font-size:19px; color: rgba(29, 0, 29, 0.692); font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;")>Food Atlas Categories:</h4></center>
+
+        <center><select id="categories"></center>
+          <option> Select Category</option>
           <option value="access"> Food Access</option>
           <option value="assistance"> Assistance</option>
           <option value="health"> Health</option>
@@ -139,19 +151,35 @@
           <option value="PRICES_TAXES"> Prices</option>
           <option value="restaurants"> Restaurants</option>
         </select>
-        <h4>Food Access variables:</h4>
-        <select id="selDataset">
 
+        <br>
+        <br>
+
+        <center><h4 style="font-size:19px; color: rgba(29, 0, 29, 0.692); font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Food Access Variables:</h4></center>
+        <select id="selDataset">
         </select>
 
     </section>
+
     <br>
+    <br>
+
   </main>
   <div id="map"> MAP</div>
-
+  <br>
+  <br>
+  <br>
+  
+  <div id = "figures">
+    <h3>Here are some other figures</h3>
   <script type="text/javascript" src="../static/js/logic.js"></script>
-</body>
 
+</div>
+</body>
+<br>
+<br>
+<br>
+<br>
 
 <!--ADDING FOOTER-->
 <footer class="footer">

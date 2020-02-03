@@ -1,8 +1,12 @@
 // Creating map object
 var myMap = L.map("map", {
-  center: [37.2758953, -104.6528618],
-  zoom: 5
-});
+  center: [37.2758953, -100],
+  zoom: 4,
+  minZoom: 2
+})
+
+
+
 
 const API_KEY = "pk.eyJ1IjoibnN3ZWhsaSIsImEiOiJjazVnMnc2ZHowM244M2pxbTFlYWhzMXVwIn0.0CxW_QdppTZUjpTaUh8-dQ"
 
@@ -203,3 +207,35 @@ d3.json(geoData, function (data) {
 
   legend.addTo(myMap);
 });
+var geoData = `/api/data/${category}`;
+var geojson;
+
+
+//create empty list to put data into - these will be x values
+var pctDiabetic = [];
+var pctObese = [];
+// Grab data with d3
+d3.json(geoData, function (data) {
+  //finding data
+  console.log(data.features[0].properties)
+  var features = data.features;
+  
+  //funtion for grabbing diabetes data
+  features.forEach(getPctDiabetic);
+  function getPctDiabetic(item) {
+    pctDiabetic.push(item.properties.PCT_DIABETES_ADULTS13);  
+}
+  //funtion for grabbing obesity data
+  features.forEach(getPctObese);
+  function getPctObese(item) {
+    pctObese.push(item.properties.PCT_OBESE_ADULTS13);  
+}
+
+  var trace1 = {
+    x: pctDiabetic,
+    y: pctObese,
+    mode: 'markers',
+    type: 'scatter'};
+    var data = [trace1];
+
+Plotly.newPlot('figures', data)})
