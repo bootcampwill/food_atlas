@@ -70,7 +70,6 @@ function selection() {
   // Grab data with d3
   d3.json(geoData, function (data) {
 
-    console.log(data)
 
     //  choropleth layer
     geojson = L.choropleth(data, {
@@ -112,9 +111,6 @@ function selection() {
       var colors = geojson.options.colors;
       var labels = [];
 
-
-
-
       // Add min & max
       var legendInfo = ` ${variableName} ` +
         "<div class=\"labels\">" +
@@ -148,8 +144,6 @@ var geojson;
 
 // Grab data with d3
 d3.json(geoData, function (data) {
-
-  console.log(data)
 
   //  choropleth layer
   geojson = L.choropleth(data, {
@@ -209,33 +203,72 @@ d3.json(geoData, function (data) {
 });
 var geoData = `/api/data/${category}`;
 var geojson;
-
-
+var accessData = `/api/data/access`
+var healthData = `/api/data/health`
+var restaurantData = `/api/data/restaurants`
 //create empty list to put data into - these will be x values
-var pctDiabetic = [];
-var pctObese = [];
+var pctDiabetic       = [];
+var pctObese          = [];
+
+//for boxplots
+var whiteLowAccess    = [];
+var blackLowAccess     = [];
+var latinxLowAccess    = [];
+var asianLowAccess     = [];
+var americanIndianLowAccess  = [];
+var hawaiianLowAccess        = [];
+var multiracialLowAccess     = [];
+
+//restaurants
+var fastfoodper1000 = []
+var fastfoodCount = []
+var fastfoodExpenditure = []
+
 // Grab data with d3
-d3.json(geoData, function (data) {
+d3.json(healthData, function (data) {
   //finding data
-  console.log(data.features[0].properties)
+
   var features = data.features;
   
-  //funtion for grabbing diabetes data
-  features.forEach(getPctDiabetic);
-  function getPctDiabetic(item) {
-    pctDiabetic.push(item.properties.PCT_DIABETES_ADULTS13);  
-}
-  //funtion for grabbing obesity data
-  features.forEach(getPctObese);
-  function getPctObese(item) {
+  //funtion for grabbing data
+  features.forEach(getData);
+  function getData(item) {
+    pctDiabetic.push(item.properties.PCT_DIABETES_ADULTS13);
     pctObese.push(item.properties.PCT_OBESE_ADULTS13);  
-}
-
+  }
+//diabetes vs obesity scatterplot
   var trace1 = {
     x: pctDiabetic,
     y: pctObese,
     mode: 'markers',
+    marker: {opacity: 0.2},
     type: 'scatter'};
     var data = [trace1];
 
 Plotly.newPlot('figures', data)})
+
+//restaurants data
+d3.json(restaurantData, function(data){
+  var features = data.features;
+  console.log(features)
+  features.forEach(getData);
+  function getData(item) {
+    fastfoodper1000.push(item.properties.FFRPTH09);
+    fastfoodCount.push(item.properties.FFR09);
+    fastfoodExpenditure.push(item.properties.PC_FFRSALES07)
+  }
+
+//obesity vs fast food restaurants
+var traceFastfood = {
+  x: fastfoodExpenditure,
+  //x: fastfoodCount,
+  y: pctDiabetic,
+  mode: "markers",
+  marker: {opacity: 0.2},
+  type: 'scatter'};
+ var data2 = [traceFastfood];
+ var layout = {xaxis:{type: "log"}}
+
+Plotly.newPlot('figures2', data2)});
+
+  
