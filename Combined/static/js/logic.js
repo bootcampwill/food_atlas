@@ -2,7 +2,8 @@
 var myMap = L.map("map", {
   center: [37.2758953, -100],
   zoom: 4,
-  minZoom: 2
+  minZoom: 2,
+  scrollWheelZoom: false
 })
 
 
@@ -64,7 +65,7 @@ function selection() {
 
   //color options
   var colorScale = ["#0026b1", "#660f12", "#054f3a", "#a64102", "#3e0273", "#633f5b", "#024575"];
-  selectedColor = colorScale[(Math.floor(Math.random() * 7) + 1)]
+  selectedColor = colorScale[(Math.floor(Math.random() * 7))]
   console.log("random colour index ", selectedColor)
 
   // Grab data with d3
@@ -206,12 +207,12 @@ var geojson;
 var accessData = `/api/data/access`
 var healthData = `/api/data/health`
 var restaurantData = `/api/data/restaurants`
-//create empty list to put data into - these will be x values
+//create empty list to put data into
 var pctDiabetic       = [];
 var pctObese          = [];
 
 //for boxplots
-var whiteLowAccess    = [];
+var whiteLowAccess     = [];
 var blackLowAccess     = [];
 var latinxLowAccess    = [];
 var asianLowAccess     = [];
@@ -221,7 +222,7 @@ var multiracialLowAccess     = [];
 
 //restaurants
 var fastfoodper1000 = []
-var fastfoodCount = []
+var fastfoodCount   = []
 var fastfoodExpenditure = []
 
 // Grab data with d3
@@ -229,7 +230,7 @@ d3.json(healthData, function (data) {
   //finding data
 
   var features = data.features;
-  
+
   //funtion for grabbing data
   features.forEach(getData);
   function getData(item) {
@@ -250,7 +251,6 @@ Plotly.newPlot('figures', data)})
 //restaurants data
 d3.json(restaurantData, function(data){
   var features = data.features;
-  console.log(features)
   features.forEach(getData);
   function getData(item) {
     fastfoodper1000.push(item.properties.FFRPTH09);
