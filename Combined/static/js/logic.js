@@ -379,7 +379,7 @@ function menu3() {
     });
   });
 }
-
+var scatterColors = []
 function updateData() {
 
   var selectedCategory1 = d3.select("#categories2 option:checked");
@@ -408,6 +408,7 @@ function updateData() {
   var x = []
   var y1 = []
   var y2 = []
+ 
 
   var variabledata1 = `/api/data/${category1}`;
   var variabledata2 = `/api/data/${category2}`;
@@ -424,6 +425,8 @@ function updateData() {
     for (i = 0; i < xdata.length; i++) {
       if (xdata[i].properties.NAME) {
         x.push(xdata[i].properties.NAME);
+        //console.log("properties: " + xdata[i].properties);
+        scatterColors.push(xdata[i].properties.STATE)
       }
     }
   })
@@ -451,7 +454,8 @@ function updateData() {
       type: 'scatter',
       mode: 'markers',
       autorange: true,
-      autotick: true,
+      autotick: true
+      //marker: {color: scatterColors}
     };
 
     var trace2 = {
@@ -461,7 +465,8 @@ function updateData() {
       xaxis: 'x2',
       yaxis: 'y2',
       type: 'scatter',
-      mode: 'markers',
+      mode: 'markers'
+      //marker: {color: scatterColors}
 
     };
 
@@ -536,7 +541,8 @@ function updateData() {
         type: 'scatter',
         mode: 'markers',
         marker: {
-          color: selectedColor,
+          color: 'rgb(0, 122, 255)',
+          opacity: 0.5
         }
       }
     ];
@@ -635,4 +641,7 @@ Plotly.react('scatter', data, layout);
 
 
 
-
+//northeast = (CT, ME, MA, NH, RI, VT, NJ, NY, PA,)
+//midwest = (IL, IN, MI, OH, WI, IA, KS, MN, MO, NE, ND, SD)
+//south = (DE, FL, GA, MD, NC, SC, VA, DC, WV, AL, KY, MS, TN, AR, LA, OK, TX)
+//west = (AZ, CO, ID, MT, NV, NM, UT, WY, AK, CA, HI, OR, WA)
